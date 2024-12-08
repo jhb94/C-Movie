@@ -32,14 +32,17 @@ This is the functional workflow of the solution, this pipeline will be scheduled
 
 ![Provider Tables](ProviderTables.png)
 
-Important: The film title has to be normalized to lower case, no special characters, no spaces.
+Important: The film title has to be normalized to lower case, no special characters, no spaces. All the numeric columns referring to the ratings should be normalized too, meaning, all ratings should go from 0.0 to 10.0 or from 0 to 100. Here we are going with float types from 0.0 to 10.0.
 
 3. Once the latest data is updated for all the providers, a spark job will be triggered in order to update the C-Ratings table. The id will be assigned in this process (Already processed films will already have an id and their data will be updated and new films will be assigned an id during the process) There is no way (and no need to) of standardising the id before the moment the datasets belonging to the different providers are combined in order to generate or update this table, also because every different provider will be using their own ids. In order to generate the id, a simple counter with a preceding character is sufficient, for example: ‘m000000001’.
-C-Ratings table is exposed through an API to the web application and it will be used to perform the basic functionalities in the platform, for the MVPm just the basic title search and rating display. The user interaction with the app is read only, so there is no need to provide any extra functionality to the database in order to enable external edits. The columns available in this table are:
+
+4. C-Ratings table is exposed through an API to the web application and it will be used to perform the basic functionalities in the platform, for the MVPm just the basic title search and rating display. The user interaction with the app is read only, so there is no need to provide any extra functionality to the database in order to enable external edits. The columns available in this table are:
 
 ![C-Ratings Table](C_Rating_Table.png)
 
-All the process will be orchestrated using a tool that enables the platform to do so. Tools available in the market are Dagster, Airflow. There are also some cloud native solutions or even free event based tools (These will fit under very clear circumstances only) The process can be scheduled to be run twice a day. Increasing this frequency makes no sense at all since availability of data is not crucial in time-consuming terms. Reducing the frequency to just one daily run is also a very valid option.
+Important: For Genres, this will be normalized to first character in upper case and the rest in lower case, in order to enable deduplication avoid duplicate values when the C-Rating table uses various different providers to "calculate" the genres. It is also important to normalize combined genres, f.e. Drama/ Mafia should be separated into 2 genres and it is up to the C-Movie interface to display the genres with slashes or not between them. This avoids the situation when a film is cataloged as Drama/Whatever and in other provider's platform it is cataloged as just Drama.
+
+5. All the process will be orchestrated using a tool that enables the platform to do so. Tools available in the market are Dagster, Airflow. There are also some cloud native solutions or even free event based tools (These will fit under very clear circumstances only) The process can be scheduled to be run twice a day. Increasing this frequency makes no sense at all since availability of data is not crucial in time-consuming terms. Reducing the frequency to just one daily run is also a very valid option.
 
 ## Proposed Architecture
 
