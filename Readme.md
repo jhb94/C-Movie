@@ -24,7 +24,7 @@ The C-Rating algorithm is able to calculate all the data with data coming from j
 
 This is the functional workflow of the solution, this pipeline will be scheduled and triggered with a specific frequency, for example, every 12 hours. This workflow is valid for all the stages of the application (initial load, normal functioning status and when the different provider’s data updates stop and the only thing left is the C-Ratings table and web application)
 
-![Solution Design](SolutionDesign.png)
+![Solution Design](Solution_Design.png)
 
 1. Data is fetched from the various different data sources and put into the platform. These processes can run on a scheduled mode or can be triggered. It doesn't really matter since  what is important is that every time the C-Rating calculator is run the latest data is available to be used. Therefore, the idea is to fetch all the data at the beginning of the pipeline in a parallel manner. The data fetched from every different provider will be stored as is in a bucket/ directory separated from the other providers. This functionality will be deployed on a serverless application that has scalable memory and compute power, so that it can process low and big amounts of data
 
@@ -48,4 +48,4 @@ Important: For Genres, this will be normalized to first character in upper case 
 
 Taking all of the above into account, a generalistic approach with which this solution can be implemented should be similar to the following one:
 
-![Architecture](architecture.png)
+![Architecture](Architecture.png)
