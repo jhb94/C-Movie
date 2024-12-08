@@ -30,7 +30,7 @@ This is the functional workflow of the solution, this pipeline will be scheduled
 
 2. Data will be updated for every different provider. There will be 2 different buckets per provider, one with all the data as is and one with the data as the C-Rating calculator needs it. So, from the landing bucket to the usable bucket, an upsert spark job process will be performed using Apache Hudi or Apache Iceberg. This CDC framework allows the process to be very cost effective, since it only processes new data and does not read the full dataset in order to perform operations. For every film present in the new data, it will be a timestamp and the type of film it is (New Film = INSERT, Old Film = UPSERT and there is also the possibility to delete films, DELETE) All the records for every different provider will contain a last_updated timestamp column, this will allow the C-Rating Spark Job to know when to recalculate the ratings for a specific film or not, this way, a lot of time will be save in terms of doing calculations. The output fields will be homogeneous per provider, and these fields will be:
 
-![Provider Tables](ProviderTables.png)
+![Provider Tables](Provider_Tables.png)
 
 Important: The film title has to be normalized to lower case, no special characters, no spaces. All the numeric columns referring to the ratings should be normalized too, meaning, all ratings should go from 0.0 to 10.0 or from 0 to 100. Here we are going with float types from 0.0 to 10.0.
 
