@@ -48,4 +48,4 @@ Important: For Genres, this will be normalized to first character in upper case 
 
 Taking all of the above into account, a generalistic approach with which this solution can be implemented should be similar to the following one:
 
-![Architecture](Architecture.png)
+![Architecture](Proposed_Architecture.png)
