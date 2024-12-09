@@ -19,6 +19,10 @@ Original Data has to be persisted as is, this means, data will be fetched from t
 5. There is some kind of method or information that allows the platform to distinguish when a film is old (It is already present in the dataset) or new, or, in other words, when the provider is sending updated data or when the provider is sending new data. 
 The C-Rating algorithm is able to calculate all the data with data coming from just one provider or more.
 6. There is a way to distinguish between the film original name and the title that is more commonly used, in order to do the comparison between platforms titles should match. F.e, IMDb provides this information separately.
+7. It has been assumed that all the data cannot be processed every time, for various reasons:
+- The algorithm is considered to be something complex and time and computation power consuming.
+- Makes no sense to reprocess old films that won't probably have changes most of the times.
+- Last thing is that the solution is considering that the providers won't expose all their data in their FTP or transfer mediums, they will only put partial data into them (This is the point that makes the problem difficult to understand, since the REST API data ingestion part seems to be public - not agreed with the provider, but taking data from an FTP server normally requires authentication and an agreement between part to make that traffic possible) So we consider here that most of the data sources will be just exposing changes to previous films, updates and new films, or if they delete a film they will also put a, f.e. line in a CSV containing information about which record was deleted.
 
 ## Functional Design /  High level picture of the proposal
 
